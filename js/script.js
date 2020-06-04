@@ -190,8 +190,6 @@ function validate() {
 
     if (validateName() == true && validateEmail() == true && validateActivity() == true && validateCCNum == true && validateZip == true && validateCVV == true) {
         return true;
-    } else if (validateName == true && validateEmail == true && validateActivity == true && paymentMethods[1].selected == false) {
-        return true;
     } else {
         return false;
     }
