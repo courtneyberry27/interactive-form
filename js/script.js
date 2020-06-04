@@ -245,7 +245,7 @@ function validateActivity() {
 
 function validateCCNum() {
 
-    const ccNumValue = userCreditCardNum.value;
+    const ccNumValue = ccNum.value;
     const regex = /^[0-9]{13,16}$/;
     const check = regex.test(ccNumValue);
 
@@ -262,7 +262,7 @@ function validateCCNum() {
 
 function validateZip() {
 
-    const zipValue = userZipCode.value;
+    const zipValue = zip.value;
     const regex = /^[0-9]{5}$/;
     const check = regex.test(zipValue);
 
