@@ -1,4 +1,11 @@
 const entireForm = document.querySelector('#entire-form');
+const submitButton = document.querySelector('#submit-btn');
+
+
+
+/******************************* 
+ *General Information Section
+ ********************************/
 const name = document.getElementById('name');
 const email = document.querySelector('#mail');
 const otherTitle = document.querySelector('#other-title');
@@ -6,32 +13,9 @@ otherTitle.style.display = 'none';
 const otherLabel = document.querySelector("#other-label")
 otherLabel.style.display = "none";
 const jobs = document.querySelectorAll('#title');
-const designs = document.querySelectorAll('#design');
-const colors = document.querySelector('#color');
-const allColorsDiv = document.querySelector('#colors-js-puns select');
-const iLoveJSColors = document.querySelectorAll('#color option:nth-child(n+4)');
-const jsPunsColors = document.querySelectorAll('#color option:nth-child(-n+3)');
-const activitiesInputs = document.querySelectorAll('.activities input');
-const activitiesDiv = document.querySelector('.activities');
-const totalCostDiv = document.createElement('div');
-activitiesDiv.appendChild(totalCostDiv);
-const paymentMethods = document.querySelector('#payment');
-const creditCard = document.querySelector('.credit-card');
-const paypal = document.querySelector('.paypal');
-const bitcoin = document.querySelector('.bitcoin');
-const ccNum = document.querySelector('#cc-num');
-const zip = document.querySelector('#zip');
-const cvv = document.querySelector('#cvv');
-const expMonth = document.querySelector('#exp-month');
-const expYear = document.querySelector('#exp-year');
-const selectMethodOption = paymentMethods.firstElementChild;
-const submitButton = document.querySelector('#submit-btn');
 
-
-/******************************* 
- *General Information Section
- ********************************/
 name.focus(); //the cursor automatically starts in name input
+
 
 //making the other box and label only appear when the other option is selected
 for (let i = 0; i < jobs.length; i += 1) {
@@ -49,6 +33,12 @@ for (let i = 0; i < jobs.length; i += 1) {
 /******************************* 
  *T-shirt Selection Section
  ********************************/
+const designs = document.querySelectorAll('#design');
+const colors = document.querySelector('#color');
+const allColorsDiv = document.querySelector('#colors-js-puns select');
+const iLoveJSColors = document.querySelectorAll('#color option:nth-child(n+4)');
+const jsPunsColors = document.querySelectorAll('#color option:nth-child(-n+3)');
+
 colors.style.display = 'none'; //hides color options until theme is selected
 
 //loop through design themes to get correct colors for each theme
@@ -75,7 +65,12 @@ for (let i = 0; i < designs.length; i += 1) {
 /******************************* 
  *Activities Section
  ********************************/
+const activitiesInputs = document.querySelectorAll('.activities input');
+const activitiesDiv = document.querySelector('.activities');
+const totalCostDiv = document.createElement('div');
+activitiesDiv.appendChild(totalCostDiv);
 let totalCost = 0;
+
 totalCostDiv.textContent = `Total: $${totalCost}`; //displays initial cost of zero
 
 /*FUNCTION: disabledActivity - disables and changes color of events with conflicting times upon clicking an event
@@ -141,6 +136,17 @@ for (let i = 0; i < activitiesInputs.length; i += 1) {
 /******************************* 
  *Payment Info Section
  ********************************/
+const paymentMethods = document.querySelector('#payment');
+const creditCard = document.querySelector('.credit-card');
+const paypal = document.querySelector('.paypal');
+const bitcoin = document.querySelector('.bitcoin');
+const ccNum = document.querySelector('#cc-num');
+const zip = document.querySelector('#zip');
+const cvv = document.querySelector('#cvv');
+const expMonth = document.querySelector('#exp-month');
+const expYear = document.querySelector('#exp-year');
+const selectMethodOption = paymentMethods.firstElementChild;
+
 //makes sure users cannot select the "Select Method of Payment" option in the drop down list
 selectMethodOption.disabled = true;
 
@@ -179,10 +185,16 @@ for (let i = 0; i < paymentMethods.length; i += 1) {
 /******************************* 
 Form Validation
 ********************************/
-entireForm.addEventListener('submit', (e) => {
-    validate();
+const regexName = /^[A-Za-z]+\s?[A-Za-z]+$/;
+const regexEmail = /^[^@]+@[^@.]+\.[a-z]+$/i;
+const regexCCNum = /^[0-9]{13,16}$/;
+const regexZip = /^[0-9]{5}$/;
+const regexCVV = /^[0-9]{3}$/;
 
-    if (validate() == true) {
+entireForm.addEventListener('submit', (e) => {
+    validateAll();
+
+    if (validateAll() == true) {
 
     } else {
         e.preventDefault();
@@ -192,55 +204,42 @@ entireForm.addEventListener('submit', (e) => {
 /*FUNCTION: validate - calls all validation functions
  *returns [boolean] - true or false based on whether or not the form is complete
  */
-function validate() {
-    validateName();
-    validateEmail();
+function validateAll() {
+    validateAspect(name, regexName);
+    validateAspect(email, regexEmail);
     validateActivity();
-    validateCCNum();
-    validateZip();
-    validateCVV();
+    validateAspect(ccNum, regexCCNum);
+    validateAspect(zip, regexZip);
+    validateAspect(cvv, regexCVV);
 
-    if (validateName() == true && validateEmail() == true && validateActivity() == true && validateCCNum == true && validateZip == true && validateCVV == true) {
+    if (validateAspect(name, regexName) == true && validateAspect(email, regexEmail) == true && validateActivity() == true && validateAspect(ccNum, regexCCNum) == true && validateAspect(zip, regexZip) == true && validateAspect(cvv, regexCVV) == true) {
         return true;
     } else {
         return false;
     }
-}
-
-/*FUNCTION: validateName - checks to see if name is entered 
- *returns [boolean] - true or false based on whether or not the name is empty
- */
-function validateName() {
-
-    const nameValue = name.value;
-    const regex = /^[A-Za-z]+\s?[A-Za-z]+$/;
-    const check = regex.test(nameValue);
-
-    if (check == true) {
-        name.style.border = "";
-        return true;
-    } else {
-        name.style.border = "5px solid red";
-        return false;
-
-    }
 
 }
 
-/*FUNCTION: validateEmail - checks to see if email is entered and in correct format
- *returns [boolean] - true or false based on whether or not the email is empty/notformatted correctly 
+
+
+/*FUNCTION: validateAspect - checks to see if aspect is true or false with given regex 
+ *aspect [input element] - this is name, email, ccNum, zip, and cvv
+ *regex [regex] - this is the regular expressin for evaluating whether the aspect is true or false
+ *returns [boolean] - true or false based on whether or not the input is valid
  */
-function validateEmail() {
-    const emailValue = email.value;
-    const regex = /^[^@]+@[^@.]+\.[a-z]+$/i;
-    const check = regex.test(emailValue);
+
+function validateAspect(aspect, regex) {
+
+    const value = aspect.value;
+    const check = regex.test(value);
 
     if (check == true) {
-        email.style.border = "";
+        aspect.style.border = "";
         return true;
     } else {
-        email.style.border = "5px solid red";
+        aspect.style.border = "3px solid fuchsia";
         return false;
+
     }
 
 }
@@ -254,64 +253,7 @@ function validateActivity() {
         activitiesDiv.style.border = "";
         return true;
     } else {
-        activitiesDiv.style.border = "5px solid red";
-        return false;
-    }
-
-}
-
-/*FUNCTION: validateCCNum - checks to see if credit card number is entered and within 13-16 digits
- *returns [boolean] - true or false based on whether or not the number field is empty or not the correct numebr of digits
- */
-function validateCCNum() {
-
-    const ccNumValue = ccNum.value;
-    const regex = /^[0-9]{13,16}$/;
-    const check = regex.test(ccNumValue);
-
-    if (check == true) {
-        ccNum.style.border = "";
-        return true;
-    } else {
-        ccNum.style.border = "5px solid red";
-        return false;
-    }
-
-}
-
-/*FUNCTION: validateZip - checks to see if zip is entered and 5 digits
- *returns [boolean] - true or false based on whether or not the zip is empty or not entered correctly
- */
-function validateZip() {
-
-    const zipValue = zip.value;
-    const regex = /^[0-9]{5}$/;
-    const check = regex.test(zipValue);
-
-    if (check == true) {
-        zip.style.border = "";
-        return true;
-    } else {
-        zip.style.border = "5px solid red";
-        return false;
-    }
-
-}
-
-/*FUNCTION: validateCVV - checks to see if cvv is entered and 3 digits
- *returns [boolean] - true or false based on whether or not the cvv is empty or not 3 digits
- */
-function validateCVV() {
-
-    const cvvValue = cvv.value;
-    const regex = /^[0-9]{3}$/;
-    const check = regex.test(cvvValue);
-
-    if (check == true) {
-        cvv.style.border = "";
-        return true;
-    } else {
-        cvv.style.border = "5px solid red";
+        activitiesDiv.style.border = "3px solid fuchsia";
         return false;
     }
 
