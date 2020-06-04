@@ -1,4 +1,3 @@
-const entireForm = document.querySelector('#entire-form');
 const name = document.getElementById('name');
 const email = document.querySelector('#mail');
 const otherTitle = document.querySelector('#other-title');
