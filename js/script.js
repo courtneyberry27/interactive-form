@@ -215,9 +215,9 @@ function validateName() {
 
 
 function validateEmail() {
-    const emailValue = userEmail.value;
+    const emailValue = email.value;
     const regex = /^[^@]+@[^@.]+\.[a-z]+$/;
-    const check = regex.test(email);
+    const check = regex.test(emailValue);
 
     if (check == true) {
         email.style.border = "";
