@@ -6,7 +6,6 @@ otherTitle.style.display = 'none';
 const otherLabel = document.querySelector("#other-label")
 otherLabel.style.display = "none";
 const jobs = document.querySelectorAll('#title');
-const shirtBoxDiv = document.querySelector('.shirt-box');
 const designs = document.querySelectorAll('#design');
 const colors = document.querySelector('#color');
 const allColorsDiv = document.querySelector('#colors-js-puns select');
@@ -28,16 +27,14 @@ const expYear = document.querySelector('#exp-year');
 const selectMethodOption = paymentMethods.firstElementChild;
 const submitButton = document.querySelector('#submit-btn');
 
-//entireForm.appendChild(submitButton);
 
 /******************************* 
  *General Information Section
  ********************************/
-//auto focus on name 
 name.focus(); //the cursor automatically starts in name input
 
 //making the other box and label only appear when the other option is selected
-for (let i = 0; i < jobs.length; i++) {
+for (let i = 0; i < jobs.length; i += 1) {
     jobs[i].addEventListener('change', (event) => {
         if (event.target.value == 'other') {
             otherTitle.style.display = '';
@@ -160,7 +157,7 @@ hide(bitcoin);
 
 
 //if statements selecting and displaying the correct payment option based on which option chosen in drop down list
-for (let i = 0; i < paymentMethods.length; i++) {
+for (let i = 0; i < paymentMethods.length; i += 1) {
     // EVENT LISTENER FOR DROP DOWN MENU
     paymentMethods.addEventListener('change', (event) => {
         if (event.target.value == 'credit card') {
@@ -186,12 +183,15 @@ entireForm.addEventListener('submit', (e) => {
     validate();
 
     if (validate() == true) {
-        entireForm.textContent = `<h1> Form Submitted </h1>`;
+
     } else {
         e.preventDefault();
     }
 });
 
+/*FUNCTION: validate - calls all validation functions
+ *returns [boolean] - true or false based on whether or not the form is complete
+ */
 function validate() {
     validateName();
     validateEmail();
@@ -207,6 +207,9 @@ function validate() {
     }
 }
 
+/*FUNCTION: validateName - checks to see if name is entered 
+ *returns [boolean] - true or false based on whether or not the name is empty
+ */
 function validateName() {
 
     const nameValue = name.value;
@@ -224,7 +227,9 @@ function validateName() {
 
 }
 
-
+/*FUNCTION: validateEmail - checks to see if email is entered and in correct format
+ *returns [boolean] - true or false based on whether or not the email is empty/notformatted correctly 
+ */
 function validateEmail() {
     const emailValue = email.value;
     const regex = /^[^@]+@[^@.]+\.[a-z]+$/i;
@@ -240,14 +245,9 @@ function validateEmail() {
 
 }
 
-// function validateTShirt() {
-//     if (colors.style.display = "none") {
-//         shirtBoxDiv.style.border = "5px solid red";
-//     } else {
-//         shirtBoxDiv.style.border = '';
-//     }
-// }
-
+/*FUNCTION: validateActivity - checks to see if at least on activity is selected 
+ *returns [boolean] - true or false based on whether or not one or more is selected
+ */
 function validateActivity() {
 
     if (totalCost > 0) {
@@ -260,6 +260,9 @@ function validateActivity() {
 
 }
 
+/*FUNCTION: validateCCNum - checks to see if credit card number is entered and within 13-16 digits
+ *returns [boolean] - true or false based on whether or not the number field is empty or not the correct numebr of digits
+ */
 function validateCCNum() {
 
     const ccNumValue = ccNum.value;
@@ -276,7 +279,9 @@ function validateCCNum() {
 
 }
 
-
+/*FUNCTION: validateZip - checks to see if zip is entered and 5 digits
+ *returns [boolean] - true or false based on whether or not the zip is empty or not entered correctly
+ */
 function validateZip() {
 
     const zipValue = zip.value;
@@ -293,7 +298,9 @@ function validateZip() {
 
 }
 
-
+/*FUNCTION: validateCVV - checks to see if cvv is entered and 3 digits
+ *returns [boolean] - true or false based on whether or not the cvv is empty or not 3 digits
+ */
 function validateCVV() {
 
     const cvvValue = cvv.value;
