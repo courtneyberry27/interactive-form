@@ -1,0 +1,2 @@
+# interactive-form
+This is an interactive form for registering for a full-stack conference.  It utilizes all of the skills I have learned in unit 3 of my treehouse TechDegree.  It asks for name, email, job role(with an interactive text box for other), t-shirt size, theme, color(based on theme selection), which activities the user would like to attend, and finally payment information.  This application then uses validation to check and let the user know if something is entered incorrectly or is missing.
