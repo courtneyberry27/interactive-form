@@ -22,7 +22,7 @@ const cvv = document.querySelector('#cvv');
 const expMonth = document.querySelector('#exp-month');
 const expYear = document.querySelector('#exp-year');
 const selectMethodOption = paymentMethods.firstElementChild;
-const submitButton = document.querySelector('#js-submmit-btn');
+const submitButton = document.querySelector('#submmit-btn');
 //entireForm.appendChild(submitButton);
 
 /******************************* 
@@ -170,7 +170,7 @@ for (let i = 0; i < paymentMethods.length; i++) {
 /******************************* 
 Form Validation
 ********************************/
-entireForm.addEventListener('submit', (e) => {
+submitButton.addEventListener('submit', (e) => {
     validate();
 
     if (validate() == true) {
