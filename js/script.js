@@ -214,7 +214,7 @@ function validateName() {
 }
 
 
-function checkEmail() {
+function validateEmail() {
     const emailValue = userEmail.value;
     const regex = /^[^@]+@[^@.]+\.[a-z]+$/;
     const check = regex.test(email);
