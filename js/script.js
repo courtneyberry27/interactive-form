@@ -1,3 +1,4 @@
+const entireForm = document.querySelector('#entire-form');
 const name = document.getElementById('name');
 const email = document.querySelector('#mail');
 const otherTitle = document.querySelector('#other-title');
@@ -5,6 +6,7 @@ otherTitle.style.display = 'none';
 const otherLabel = document.querySelector("#other-label")
 otherLabel.style.display = "none";
 const jobs = document.querySelectorAll('#title');
+const shirtBoxDiv = document.querySelector('.shirt-box');
 const designs = document.querySelectorAll('#design');
 const colors = document.querySelector('#color');
 const allColorsDiv = document.querySelector('#colors-js-puns select');
@@ -15,13 +17,17 @@ const activitiesDiv = document.querySelector('.activities');
 const totalCostDiv = document.createElement('div');
 activitiesDiv.appendChild(totalCostDiv);
 const paymentMethods = document.querySelector('#payment');
+const creditCard = document.querySelector('.credit-card');
+const paypal = document.querySelector('.paypal');
+const bitcoin = document.querySelector('.bitcoin');
 const ccNum = document.querySelector('#cc-num');
 const zip = document.querySelector('#zip');
 const cvv = document.querySelector('#cvv');
 const expMonth = document.querySelector('#exp-month');
 const expYear = document.querySelector('#exp-year');
 const selectMethodOption = paymentMethods.firstElementChild;
-const submitButton = document.querySelector('#submmit-btn');
+const submitButton = document.querySelector('#submit-btn');
+
 //entireForm.appendChild(submitButton);
 
 /******************************* 
@@ -141,9 +147,16 @@ for (let i = 0; i < activitiesInputs.length; i += 1) {
 //makes sure users cannot select the "Select Method of Payment" option in the drop down list
 selectMethodOption.disabled = true;
 
+function hide(paymentChoice) {
+    paymentChoice.style.display = 'none';
+}
+
+function show(paymentChoice) {
+    paymentChoice.style.display = '';
+}
 //makes credit card the default option
-$('#paypal').hide();
-$('#bitcoin').hide();
+hide(paypal);
+hide(bitcoin);
 
 
 //if statements selecting and displaying the correct payment option based on which option chosen in drop down list
@@ -151,17 +164,17 @@ for (let i = 0; i < paymentMethods.length; i++) {
     // EVENT LISTENER FOR DROP DOWN MENU
     paymentMethods.addEventListener('change', (event) => {
         if (event.target.value == 'credit card') {
-            $('#paypal').hide();
-            $('#bitcoin').hide();
-            $('#credit-card').show();
+            hide(paypal);
+            hide(bitcoin);
+            show(creditCard);
         } else if (event.target.value == 'paypal') {
-            $('#paypal').show();
-            $('#bitcoin').hide();
-            $('#credit-card').hide();
+            show(paypal);
+            hide(bitcoin);
+            hide(creditCard);
         } else if (event.target.value == 'bitcoin') {
-            $('#paypal').hide();
-            $('#bitcoin').show();
-            $('#credit-card').hide();
+            hide(paypal);
+            show(bitcoin);
+            hide(creditCard);
         }
     });
 }
@@ -169,7 +182,7 @@ for (let i = 0; i < paymentMethods.length; i++) {
 /******************************* 
 Form Validation
 ********************************/
-submitButton.addEventListener('submit', (e) => {
+entireForm.addEventListener('submit', (e) => {
     validate();
 
     if (validate() == true) {
@@ -209,13 +222,12 @@ function validateName() {
 
     }
 
-
 }
 
 
 function validateEmail() {
     const emailValue = email.value;
-    const regex = /^[^@]+@[^@.]+\.[a-z]+$/;
+    const regex = /^[^@]+@[^@.]+\.[a-z]+$/i;
     const check = regex.test(emailValue);
 
     if (check == true) {
@@ -228,6 +240,13 @@ function validateEmail() {
 
 }
 
+// function validateTShirt() {
+//     if (colors.style.display = "none") {
+//         shirtBoxDiv.style.border = "5px solid red";
+//     } else {
+//         shirtBoxDiv.style.border = '';
+//     }
+// }
 
 function validateActivity() {
 
@@ -240,8 +259,6 @@ function validateActivity() {
     }
 
 }
-
-
 
 function validateCCNum() {
 
