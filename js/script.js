@@ -148,7 +148,6 @@ const expYear = document.querySelector('#exp-year');
 const selectMethodOption = paymentMethods.firstElementChild;
 
 //makes sure users cannot select the "Select Method of Payment" option in the drop down list
-selectMethodOption.disabled = true;
 
 function hide(paymentChoice) {
     paymentChoice.style.display = 'none';
@@ -157,9 +156,11 @@ function hide(paymentChoice) {
 function show(paymentChoice) {
     paymentChoice.style.display = '';
 }
-//makes credit card the default option
+//makes credit card the default option and removes select payment option
+paymentMethods.removeChild(selectMethodOption);
 hide(paypal);
 hide(bitcoin);
+
 
 
 //if statements selecting and displaying the correct payment option based on which option chosen in drop down list
@@ -191,10 +192,11 @@ const regexCCNum = /^[0-9]{13,16}$/;
 const regexZip = /^[0-9]{5}$/;
 const regexCVV = /^[0-9]{3}$/;
 
-entireForm.addEventListener('submit', (e) => {
+submitButton.addEventListener('click', (e) => {
     validateAll();
 
     if (validateAll() == true) {
+        console.log("submitted");
 
     } else {
         e.preventDefault();
@@ -213,6 +215,8 @@ function validateAll() {
     validateAspect(cvv, regexCVV);
 
     if (validateAspect(name, regexName) == true && validateAspect(email, regexEmail) == true && validateActivity() == true && validateAspect(ccNum, regexCCNum) == true && validateAspect(zip, regexZip) == true && validateAspect(cvv, regexCVV) == true) {
+        return true;
+    } else if (validateAspect(name, regexName) == true && validateAspect(email, regexEmail) == true && validateActivity() == true && (selectMethodOption.value == 'paypal' || selectMethodOption.value == "bitcoin")) {
         return true;
     } else {
         return false;
@@ -248,7 +252,6 @@ function validateAspect(aspect, regex) {
  *returns [boolean] - true or false based on whether or not one or more is selected
  */
 function validateActivity() {
-
     if (totalCost > 0) {
         activitiesDiv.style.border = "";
         return true;
@@ -258,3 +261,4 @@ function validateActivity() {
     }
 
 }
+
