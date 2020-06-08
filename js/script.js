@@ -192,8 +192,8 @@ const regexCCNum = /^[0-9]{13,16}$/;
 const regexZip = /^[0-9]{5}$/;
 const regexCVV = /^[0-9]{3}$/;
 
-submitButton.addEventListener('click', (e) => {
-    validateAll();
+entireForm.addEventListener('submit', (e) => {
+    // validateAll();
 
     if (validateAll() == true) {
         console.log("submitted");
@@ -216,7 +216,7 @@ function validateAll() {
 
     if (validateAspect(name, regexName) == true && validateAspect(email, regexEmail) == true && validateActivity() == true && validateAspect(ccNum, regexCCNum) == true && validateAspect(zip, regexZip) == true && validateAspect(cvv, regexCVV) == true) {
         return true;
-    } else if (validateAspect(name, regexName) == true && validateAspect(email, regexEmail) == true && validateActivity() == true && (selectMethodOption.value == 'paypal' || selectMethodOption.value == "bitcoin")) {
+    } else if (validateAspect(name, regexName) == true && validateAspect(email, regexEmail) == true && validateActivity() == true && paymentMethods[0].selected == false) {
         return true;
     } else {
         return false;
@@ -240,6 +240,8 @@ function validateAspect(aspect, regex) {
     if (check == true) {
         aspect.style.border = "";
         return true;
+    } else if (paymentMethods.value === paypal || paymentMethods.value === bitcoin) {
+        return true;
     } else {
         aspect.style.border = "3px solid fuchsia";
         return false;
@@ -259,6 +261,4 @@ function validateActivity() {
         activitiesDiv.style.border = "3px solid fuchsia";
         return false;
     }
-
 }
-
